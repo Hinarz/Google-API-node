@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+	  <meta charset="utf-8">
+
+	  
+	  <meta name="description" content="The HTML5 Herald">
+	  <meta name="author" content="SitePoint">
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	  <link rel="stylesheet" href="css/style.css?v=1.0">
+	      <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+	</head>
+<body>
+
+<div id="map"></div>
+		
+		<div id="infoposition"></div>
+		 <audio><source id=son src="/sound/Do.mp3" type="audio/mp3" /></audio>
+
+
+       <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io.connect('http://localhost:3000');
+
+
+															//AUDIO WEB//
+
+				      //AUDIO CONTROL VOLUME
+
+			      var music = document.getElementsByTagName("audio")[0];
+
+			      window.addEventListener("load", function(event){Off();});
+
+			      function Off(){
+			        music.pause();
+			      }
+
+			      function On() {
+			        music.play();
+			      }
+
+				// use XHR to load an audio track, and
+				// decodeAudioData to decode it and stick it in a buffer.
+				// Then we put the buffer into the source
+				// wire up buttons to stop and play audio
+
+
+				
+														// GEOLOCALISATION//
+		
+		function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 48.857313, lng: 2.354580},
+          zoom: 18
+        });
+        var infoWindow = new google.maps.InfoWindow({map: map});
+
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.watchPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Location found.');
+            map.setCenter(pos);
+
+
+            var ici = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            var laba = new google.maps.LatLng(48.870797, 2.377099);
+            var distance = google.maps.geometry.spherical.computeDistanceBetween(ici, laba);
+
+            console.log(distance);
+
+            if (distance < 10){
+              On();
+              music.volume = 1 - (distance/10);
+              console.log(music.volume);
+            }
+
+            else {
+             Off();
+            }
+            
+
+            //console.log(typeof music);
+            // console.log(position.coords.latitude, position.coords.longitude )            
+            //console.log(dist);
+            //console.log(music.volume);
+
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+      }
+
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+      }
+
+        </script>
+        <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMUx7u48y9j3oAqkCH2U4b7y-kSyhk9Ws&callback=initMap">
+    </script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?libraries=geometry&sensor=true_or_false"></script>
+
+<!-- <script type="text/javascript" src="audio.js"></script> -->
+<!-- Un élément HTML pour recueillir l’affichage -->
+
+
+</body>
+</html>

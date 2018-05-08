@@ -1,0 +1,11 @@
+
+- Installer Nodejs : (lien)[http://nodejs.org/]
+- Via le terminal, naviguer jusqu'au dossier `osc-server`
+- Dans le terminal, taper `node server.js`
+- Le serveur est lancé
+- Le mac (serveur) et le smartphone/tablette (client) doivent être connectés au même réseau wifi
+- Sur mac, aller dans `Préférences Système > Réseau`
+- On peut voir ici l'adresse ip du serveur (fichier `capture.jpg du dossier)
+- Sur le navigateur internet du client (iphone/ipad/smartphone ou un autre mac), visiter l'adresse ip suivi du port (dans l'exemple `capture.jpg`, l'adresse serait `192.168.1.12:3000`)
+- Lancer le patch `osc.maxpat`
+- Bouger le cercle et l'info devrait arriver
